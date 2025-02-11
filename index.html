@@ -4,10 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | FoamShooter</title>
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
     <canvas id="unity-canvas" width=960 height=600 style="width: 960px; height: 600px; background: #231F20"></canvas>
     <script src="Build/build2.loader.js"></script>
+    <div id="loading-animation">
+      <dotlottie-player src="https://lottie.host/355e71d9-d6cc-4daf-9fbd-38020316e337/cPInm2woRX.lottie"
+                       background="transparent" speed="1"
+                       style="width: 300px; height: 300px"
+                       loop autoplay></dotlottie-player>
+    </div>
     <script>
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
@@ -31,7 +38,10 @@
         companyName: "DefaultCompany",
         productName: "FoamShooter",
         productVersion: "1.0.0",
-      });
+      }).then(() => {
+          // Hide loading animation when game is loaded
+          document.getElementById("loading-animation").style.display = "none";
+        });
     </script>
   </body>
 </html>
