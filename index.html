@@ -4,50 +4,61 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | FoamShooter</title>
-    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
     <style>
       body {
-        margin: 0;
+        text-align: center;
         padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background: #231F20;
+        border: 0;
+        margin: 0;
       }
-      #loading-animation {
-        position: absolute;
-        z-index: 1;
+
+      #loading-screen {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background: #231F20;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      #loading-screen img {
+        width: 150px;
+        height: 150px;
+      }
+
+      canvas {
+        width: 960px;
+        height: 600px;
+        background: #231F20;
       }
     </style>
   </head>
   <body>
-    <div id="loading-animation">
-      <dotlottie-player src="https://lottie.host/355e71d9-d6cc-4daf-9fbd-38020316e337/cPInm2woRX.lottie"
-                       background="transparent" speed="1"
-                       style="width: 300px; height: 300px"
-                       loop autoplay></dotlottie-player>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+      <img src="loading.gif" alt="Loading...">
     </div>
-    
-    <canvas id="unity-canvas" width=960 height=600
-            style="width: 960px; height: 600px; background: #231F20"></canvas>
+
+    <!-- Unity Canvas -->
+    <canvas id="unity-canvas" width="960" height="600"></canvas>
 
     <script src="Build/build2.loader.js"></script>
     <script>
-      // Mobile viewport handling
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
+        var meta = document.createElement("meta");
+        meta.name = "viewport";
+        meta.content = "width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
+        document.head.appendChild(meta);
 
         var canvas = document.querySelector("#unity-canvas");
         canvas.style.width = "100%";
         canvas.style.height = "100%";
         canvas.style.position = "fixed";
+        document.body.style.textAlign = "left";
       }
 
-      // Load Unity and hide loading animation when ready
       createUnityInstance(document.querySelector("#unity-canvas"), {
         dataUrl: "Build/build2.data",
         frameworkUrl: "Build/build2.framework.js",
@@ -57,8 +68,8 @@
         productName: "FoamShooter",
         productVersion: "1.0.0",
       }).then(() => {
-        // Hide loading animation when game is loaded
-        document.getElementById("loading-animation").style.display = "none";
+        // Hide loading screen when Unity loads
+        document.getElementById("loading-screen").style.display = "none";
       });
     </script>
   </body>
